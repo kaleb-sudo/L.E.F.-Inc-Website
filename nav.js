@@ -152,6 +152,9 @@
   ].join('');
   document.head.appendChild(style);
 
+  /* Determine quote link — home page anchors to #quote, subpages go to index */
+  var quoteLink = isSubpage ? root + 'index.html#quote' : '#quote';
+
   /* ── Build nav HTML ── */
   var navEl = document.createElement('nav');
   navEl.className = 'site-nav';
@@ -161,10 +164,12 @@
       '<img src="' + root + 'brand_assets/Logo/1.png" alt="" class="nav-logo-spark" aria-hidden="true">' +
       '<div class="nav-logo-text">' +
         '<span class="nav-logo-name">L.E.F., Inc.</span>' +
-        '<span class="nav-logo-sub">Laser &amp; Metal Fabrication</span>' +
+        '<span class="nav-logo-sub">Laser Cutting &amp; Metal Fabrication</span>' +
       '</div>' +
     '</a>' +
     '<div class="nav-pill">' +
+      '<a href="' + root + 'about.html" class="nav-pill-link">About Us</a>' +
+      '<div class="nav-pill-divider" aria-hidden="true"></div>' +
       '<div class="nav-dropdown">' +
         '<button class="nav-pill-link" aria-haspopup="true" aria-expanded="false">' +
           'Services' +
@@ -172,8 +177,7 @@
         '</button>' +
         '<div class="nav-dropdown-menu" role="menu">' +
           '<div class="nav-dropdown-menu-inner">' +
-            '<a href="' + root + 'services/3-axis-laser.html" class="nav-dropdown-item" role="menuitem"><span class="nav-dropdown-dot"></span>3-Axis Laser</a>' +
-            '<a href="' + root + 'services/5-axis-laser.html" class="nav-dropdown-item" role="menuitem"><span class="nav-dropdown-dot"></span>5-Axis Laser</a>' +
+            '<a href="' + root + 'services/laser-cutting.html" class="nav-dropdown-item" role="menuitem"><span class="nav-dropdown-dot"></span>Laser Cutting</a>' +
             '<a href="' + root + 'services/press-brake.html" class="nav-dropdown-item" role="menuitem"><span class="nav-dropdown-dot"></span>Press Brake &amp; Forming</a>' +
             '<a href="' + root + 'services/machining.html" class="nav-dropdown-item" role="menuitem"><span class="nav-dropdown-dot"></span>CNC Machining</a>' +
             '<a href="' + root + 'services/welding.html" class="nav-dropdown-item" role="menuitem"><span class="nav-dropdown-dot"></span>Welding &amp; Assembly</a>' +
@@ -184,10 +188,10 @@
         '</div>' +
       '</div>' +
       '<div class="nav-pill-divider" aria-hidden="true"></div>' +
-      '<a href="' + root + 'index.html#about" class="nav-pill-link">About</a>' +
+      '<a href="' + root + 'gallery.html" class="nav-pill-link">Gallery</a>' +
     '</div>' +
     '<div class="nav-right">' +
-      '<a href="mailto:misael@kgpromedia.com" class="nav-cta">Get a Free Quote</a>' +
+      '<a href="' + quoteLink + '" class="nav-cta">Start a Quote</a>' +
       '<button class="nav-hamburger" aria-label="Open navigation" aria-expanded="false" aria-controls="nav-mobile-menu">' +
         '<span></span><span></span><span></span>' +
       '</button>' +
@@ -209,13 +213,13 @@
   mobileMenu.setAttribute('aria-label', 'Mobile navigation');
   mobileMenu.innerHTML =
     '<div class="nav-mobile-menu-inner">' +
+      '<a href="' + root + 'about.html" class="nav-mobile-link">About Us</a>' +
       '<button class="nav-mobile-services-toggle" aria-expanded="false" aria-controls="nav-mobile-submenu">' +
         'Services' +
         '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>' +
       '</button>' +
       '<div class="nav-mobile-submenu" id="nav-mobile-submenu">' +
-        '<a href="' + root + 'services/3-axis-laser.html" class="nav-mobile-sublink">3-Axis Laser</a>' +
-        '<a href="' + root + 'services/5-axis-laser.html" class="nav-mobile-sublink">5-Axis Laser</a>' +
+        '<a href="' + root + 'services/laser-cutting.html" class="nav-mobile-sublink">Laser Cutting</a>' +
         '<a href="' + root + 'services/press-brake.html" class="nav-mobile-sublink">Press Brake &amp; Forming</a>' +
         '<a href="' + root + 'services/machining.html" class="nav-mobile-sublink">CNC Machining</a>' +
         '<a href="' + root + 'services/welding.html" class="nav-mobile-sublink">Welding &amp; Assembly</a>' +
@@ -223,8 +227,8 @@
         '<a href="' + root + 'services/powder-coating.html" class="nav-mobile-sublink">Powder Coating</a>' +
         '<a href="' + root + 'services/wet-paint.html" class="nav-mobile-sublink">Wet Paint</a>' +
       '</div>' +
-      '<a href="' + root + 'index.html#about" class="nav-mobile-link">About</a>' +
-      '<a href="mailto:misael@kgpromedia.com" class="nav-mobile-cta">Get a Free Quote</a>' +
+      '<a href="' + root + 'gallery.html" class="nav-mobile-link">Gallery</a>' +
+      '<a href="' + quoteLink + '" class="nav-mobile-cta">Start a Quote</a>' +
     '</div>';
 
   document.addEventListener('DOMContentLoaded', function () {

@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laser Cutting — L.E.F., INC.</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg: #0C0C0B; --surface: #141412; --accent: #FF6B1A; --accent-dim: rgba(255,107,26,0.12); --accent-2: #D4941A; --text: #F0EDE8; --muted: #78786F; --border: #252520; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 400; line-height: 1.6; overflow-x: hidden; }
+    body::after { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E"); pointer-events: none; z-index: 9000; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes glowPulse { 0%,100% { box-shadow: 0 0 18px rgba(255,107,26,0.25),0 4px 32px rgba(255,107,26,0.12); } 50% { box-shadow: 0 0 36px rgba(255,107,26,0.45),0 4px 48px rgba(255,107,26,0.22); } }
+    .anim-fade-up { animation: fadeUp 0.85s cubic-bezier(0.16,1,0.3,1) both; }
+    .btn { display: inline-flex; align-items: center; gap: 10px; font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; cursor: pointer; border: none; position: relative; overflow: hidden; transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1); }
+    .btn:active { transform: scale(0.985) !important; }
+    .btn-primary { background: var(--accent); color: #0C0C0B; padding: 15px 30px; animation: glowPulse 3s ease-in-out infinite; }
+    .btn-primary:hover { transform: translateY(-3px) scale(1.02); }
+    .btn-ghost { background: transparent; color: var(--text); padding: 14px 29px; border: 1px solid var(--border); transition: border-color 0.3s, color 0.3s, transform 0.25s cubic-bezier(0.34,1.56,0.64,1); }
+    .btn-ghost:hover { border-color: rgba(255,107,26,0.5); color: var(--accent); transform: translateY(-3px); }
+    .btn-sm { padding: 11px 22px; font-size: 12px; animation: none; }
+    /* Hero */
+    .svc-hero { min-height: 65vh; position: relative; overflow: hidden; display: flex; align-items: flex-end; padding: 0 52px 80px; margin-top: 80px; }
+    .svc-hero-bg { position: absolute; inset: 0; background-size: cover; background-position: center; }
+    .svc-hero-grad { position: absolute; inset: 0; background: linear-gradient(to top, rgba(12,12,11,0.95) 0%, rgba(12,12,11,0.5) 55%, rgba(12,12,11,0.2) 100%); }
+    .svc-hero-tint { position: absolute; inset: 0; background: radial-gradient(ellipse 70% 60% at 80% 20%, rgba(255,107,26,0.1) 0%, transparent 65%); }
+    .svc-hero-content { position: relative; z-index: 2; max-width: 800px; }
+    .breadcrumb { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
+    .breadcrumb a { color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .breadcrumb a:hover { color: var(--accent); }
+    .breadcrumb-sep { color: var(--border); }
+    .breadcrumb-current { color: var(--accent); }
+    .svc-hero-h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(72px, 9vw, 130px); line-height: 0.9; letter-spacing: 0.01em; color: var(--text); margin-bottom: 20px; }
+    .svc-hero-sub { font-size: 17px; color: var(--muted); font-weight: 300; max-width: 560px; }
+    /* Section shared */
+    .section-label { display: flex; align-items: center; gap: 14px; font-family: 'DM Mono', monospace; font-size: 10px; color: var(--accent); letter-spacing: 0.32em; text-transform: uppercase; margin-bottom: 18px; }
+    .section-label::before { content: ''; width: 28px; height: 1px; background: var(--accent); flex-shrink: 0; }
+    .section-h { font-family: 'Bebas Neue', sans-serif; font-size: clamp(44px, 4.5vw, 68px); line-height: 0.95; letter-spacing: 0.01em; color: var(--text); }
+    /* Divider between service types */
+    .svc-divider { border: none; border-top: 1px solid var(--border); margin: 0; }
+    .svc-type-tag {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--accent); border: 1px solid rgba(255,107,26,0.3);
+      padding: 6px 14px; margin-bottom: 24px;
+    }
+    /* Overview */
+    .overview { padding: 100px 52px; }
+    .overview-inner { max-width: 1300px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .overview-body { font-size: 16px; line-height: 1.78; color: var(--muted); font-weight: 300; margin: 28px 0 36px; }
+    .check-list { display: flex; flex-direction: column; gap: 14px; }
+    .check-item { display: flex; align-items: flex-start; gap: 14px; font-size: 15px; color: var(--text); }
+    .check-box { width: 22px; height: 22px; flex-shrink: 0; margin-top: 1px; background: var(--accent-dim); border: 1px solid rgba(255,107,26,0.28); display: flex; align-items: center; justify-content: center; }
+    .overview-photo { position: relative; aspect-ratio: 4/3; overflow: hidden; }
+    .overview-photo img { width: 100%; height: 100%; object-fit: cover; opacity: 0.75; filter: saturate(0.7); transition: transform 0.6s cubic-bezier(0.16,1,0.3,1), opacity 0.4s; }
+    .overview-photo:hover img { transform: scale(1.04); opacity: 0.9; filter: saturate(1); }
+    .overview-photo::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(255,107,26,0.08) 0%, transparent 60%); pointer-events: none; }
+    /* Specs */
+    .specs { padding: 80px 52px; background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .specs-inner { max-width: 1300px; margin: 0 auto; }
+    .specs-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: var(--border); margin-top: 56px; }
+    .spec-block { background: var(--bg); padding: 44px 36px; }
+    .spec-title { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 0.08em; color: var(--accent); margin-bottom: 22px; }
+    .spec-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .spec-list li { font-size: 14px; color: var(--muted); line-height: 1.5; padding-left: 16px; position: relative; }
+    .spec-list li::before { content: '—'; position: absolute; left: 0; color: var(--accent); font-size: 11px; top: 2px; }
+    /* Gallery */
+    .gallery { background: var(--bg); border-top: 1px solid var(--border); }
+    .gallery-header { padding: 70px 52px 48px; max-width: 1300px; margin: 0 auto; }
+    .gallery-strip { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; }
+    .gallery-cell { aspect-ratio: 4/3; overflow: hidden; position: relative; background: var(--surface); }
+    .gallery-cell img { width: 100%; height: 100%; object-fit: cover; opacity: 0.65; filter: saturate(0.6); transition: transform 0.65s cubic-bezier(0.16,1,0.3,1), opacity 0.4s, filter 0.4s; }
+    .gallery-cell:hover img { transform: scale(1.06); opacity: 0.9; filter: saturate(1); }
+    /* CTA */
+    .cta { padding: 110px 52px; background: var(--accent); border-top: 1px solid rgba(255,107,26,0.3); text-align: center; position: relative; overflow: hidden; }
+    .cta::before { content:''; position:absolute; inset:0; background:repeating-linear-gradient(45deg,rgba(0,0,0,0.04) 0px,rgba(0,0,0,0.04) 1px,transparent 1px,transparent 22px); }
+    .cta-h { font-family: 'Bebas Neue', sans-serif; font-size: clamp(52px, 6vw, 90px); line-height: 0.92; color: #fff; margin-bottom: 20px; position: relative; z-index: 1; }
+    .cta-p { font-size: 17px; line-height: 1.65; color: rgba(255,255,255,0.85); font-weight: 300; max-width: 480px; margin: 0 auto 44px; position: relative; z-index: 1; }
+    .cta-btns { display: flex; gap: 18px; justify-content: center; flex-wrap: wrap; position: relative; z-index: 1; }
+    .btn-white { background: #fff; color: var(--accent); padding: 15px 30px; font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s; box-shadow: 0 0 20px rgba(255,255,255,0.3); border: none; cursor: pointer; }
+    .btn-white:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 0 40px rgba(255,255,255,0.5); }
+    /* Footer */
+    footer { padding: 36px 52px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 18px; }
+    .footer-copy { font-size: 13px; color: var(--muted); }
+    .footer-links { display: flex; gap: 28px; }
+    .footer-links a { font-size: 12px; letter-spacing: 0.08em; color: var(--muted); text-decoration: none; transition: color 0.2s; text-transform: uppercase; }
+    .footer-links a:hover { color: var(--text); }
+    /* Reveal */
+    .reveal { opacity: 0; transform: translateY(26px); transition: opacity 0.72s cubic-bezier(0.16,1,0.3,1), transform 0.72s cubic-bezier(0.16,1,0.3,1); }
+    .reveal.in { opacity: 1; transform: translateY(0); }
+    .delay-1 { transition-delay: 0.1s; } .delay-2 { transition-delay: 0.2s; } .delay-3 { transition-delay: 0.3s; }
+    @media (max-width: 960px) {
+      .svc-hero { padding: 0 24px 60px; }
+      .overview { padding: 70px 24px; } .overview-inner { grid-template-columns: 1fr; gap: 40px; }
+      .specs { padding: 60px 24px; } .specs-grid { grid-template-columns: 1fr; }
+      .gallery-header { padding: 50px 24px 36px; } .gallery-strip { grid-template-columns: 1fr; }
+      .cta { padding: 80px 24px; }
+      footer { padding: 28px 24px; flex-direction: column; gap: 14px; }
+    }
+  </style>
+</head>
+<body>
+  <script src="../nav.js"></script>
+
+  <!-- Hero -->
+  <section class="svc-hero">
+    <div class="svc-hero-bg" style="background-image:url('../brand_assets/Photos/5-axis%20Laser/FIRE%20ON%20H.jpg');background-position:center 40%;"></div>
+    <div class="svc-hero-grad"></div>
+    <div class="svc-hero-tint"></div>
+    <div class="svc-hero-content">
+      <div class="breadcrumb anim-fade-up" style="animation-delay:.05s">
+        <a href="../index.html">Home</a><span class="breadcrumb-sep">/</span>
+        <a href="../index.html#services">Services</a><span class="breadcrumb-sep">/</span>
+        <span class="breadcrumb-current">Laser Cutting</span>
+      </div>
+      <h1 class="svc-hero-h1 anim-fade-up" style="animation-delay:.15s">Laser<br>Cutting</h1>
+      <p class="svc-hero-sub anim-fade-up" style="animation-delay:.25s">3-Axis flat sheet, 5-Axis 3D tube and formed-part cutting, and tube cutting — all under one roof. From 24 ga to 2&quot; plate, any material, any geometry.</p>
+    </div>
+  </section>
+
+  <!-- ── 3-AXIS LASER CUTTING ── -->
+  <section class="overview" id="3-axis">
+    <div class="overview-inner">
+      <div>
+        <div class="svc-type-tag reveal">3-Axis Laser Cutting</div>
+        <div class="section-label reveal">Flat Sheet &amp; Plate</div>
+        <h2 class="section-h reveal">The Fastest<br>Cut on the Floor.</h2>
+        <p class="overview-body reveal">
+          Lasers are an extremely fast, non-contact cutting tool. Because the beam never touches the material physically, there is no tool wear, no contamination, and no force distortion. L.E.F., Inc. uses high-power laser systems to rapidly cut intricate designs and precise geometries — from simple shapes to complex nested programs — with tolerances held to ±.003&quot;.
+        </p>
+        <div class="check-list">
+          <div class="check-item reveal delay-1">
+            <div class="check-box" aria-hidden="true"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#FF6B1A" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <span>Carbon, stainless, aluminum, brass, copper, and plastics in one shop</span>
+          </div>
+          <div class="check-item reveal delay-2">
+            <div class="check-box" aria-hidden="true"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#FF6B1A" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <span>Non-contact cutting eliminates tool wear and contamination</span>
+          </div>
+          <div class="check-item reveal delay-3">
+            <div class="check-box" aria-hidden="true"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#FF6B1A" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <span>Prototype runs or high-volume production — same precision, same lead time</span>
+          </div>
+        </div>
+      </div>
+      <div class="overview-photo reveal delay-1">
+        <img src="../brand_assets/Photos/3-Axis%20Laser/Screenshot%202026-05-18%20at%206.43.30%20PM.png" alt="3-Axis laser cutting at L.E.F., INC.">
+      </div>
+    </div>
+  </section>
+
+  <!-- 3-Axis Specs -->
+  <section class="specs">
+    <div class="specs-inner">
+      <div class="section-label reveal">3-Axis Specifications</div>
+      <h2 class="section-h reveal">Materials &amp; Thickness</h2>
+      <div class="specs-grid">
+        <div class="spec-block reveal">
+          <div class="spec-title">Materials We Cut</div>
+          <ul class="spec-list">
+            <li>Carbon Steel — .001&quot; to 2&quot; thick</li>
+            <li>Stainless Steel — .001&quot; to 3/4&quot; thick</li>
+            <li>Aluminum — .001&quot; to 3/4&quot; thick</li>
+            <li>Brass — .001&quot; to 1/8&quot; thick</li>
+            <li>Copper — .001&quot; to 1/8&quot; thick</li>
+            <li>Plastics — various gauges available</li>
+          </ul>
+        </div>
+        <div class="spec-block reveal delay-1">
+          <div class="spec-title">Capabilities</div>
+          <ul class="spec-list">
+            <li>Flat sheet, bar, and plate cutting</li>
+            <li>Complex nested part programs</li>
+            <li>Precision holes, slots, and contours</li>
+            <li>Tolerances held to ±.003&quot;</li>
+            <li>DXF, DWG, STEP, and PDF file input</li>
+            <li>Quotes returned within 48 hours</li>
+          </ul>
+        </div>
+        <div class="spec-block reveal delay-2">
+          <div class="spec-title">Why Laser Over Conventional</div>
+          <ul class="spec-list">
+            <li>No tooling to set up or replace</li>
+            <li>No cutting force — no material distortion</li>
+            <li>Exceptionally clean, narrow kerf</li>
+            <li>Material hardness does not limit capability</li>
+            <li>Consistent repeatability across any volume</li>
+            <li>One setup, unlimited part geometry</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3-Axis Gallery -->
+  <section class="gallery">
+    <div class="gallery-header">
+      <div class="section-label reveal">Shop Photos</div>
+      <h2 class="section-h reveal">Laser Precision<br>in Action.</h2>
+    </div>
+    <div class="gallery-strip">
+      <div class="gallery-cell">
+        <img src="../brand_assets/Photos/3-Axis%20Laser/Screenshot%202026-05-18%20at%206.43.13%20PM.png" alt="3-Axis laser cut parts">
+      </div>
+      <div class="gallery-cell">
+        <img src="../brand_assets/Photos/3-Axis%20Laser/Screenshot%202026-05-18%20at%206.43.19%20PM.png" alt="3-Axis laser sheet cutting">
+      </div>
+      <div class="gallery-cell">
+        <img src="../brand_assets/Photos/3-Axis%20Laser/Screenshot%202026-05-18%20at%206.43.24%20PM.png" alt="Precision laser cut steel">
+      </div>
+    </div>
+  </section>
+
+  <hr class="svc-divider">
+
+  <!-- ── 5-AXIS LASER CUTTING ── -->
+  <section class="overview" id="5-axis" style="padding-top:100px;">
+    <div class="overview-inner">
+      <div class="overview-photo reveal">
+        <img src="../brand_assets/Photos/5-axis%20Laser/KGM025.jpg" alt="5-Axis laser cutting at L.E.F., INC.">
+      </div>
+      <div>
+        <div class="svc-type-tag reveal delay-1">5-Axis Laser Cutting</div>
+        <div class="section-label reveal delay-1">3D Tube &amp; Formed Parts</div>
+        <h2 class="section-h reveal delay-1">Beyond the<br>Flat Sheet.</h2>
+        <p class="overview-body reveal delay-1">
+          L.E.F., Inc.'s 5-Axis laser cutting system simplifies the cut process of 3-dimensional parts. While 3-Axis lasers only work on flat sheet, bar, and plate — our 5-Axis system cuts and creates high-quality 3D geometry from formed parts and tube. The sophisticated laser head moves at high speed around the piece, making the necessary cuts around the formed part. With more than 28 years of experience in 5-Axis/3D laser cutting, we are prepared to provide a solution.
+        </p>
+        <div class="check-list">
+          <div class="check-item reveal delay-2">
+            <div class="check-box" aria-hidden="true"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#FF6B1A" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <span>Contour cutting and beveling on 3D formed parts and tube</span>
+          </div>
+          <div class="check-item reveal delay-2">
+            <div class="check-box" aria-hidden="true"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#FF6B1A" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <span>359° C-axis rotation — virtually unlimited geometry access</span>
+          </div>
+          <div class="check-item reveal delay-3">
+            <div class="check-box" aria-hidden="true"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#FF6B1A" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <span>G-code programming or proprietary laser manufacturer coding</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5-Axis Specs -->
+  <section class="specs">
+    <div class="specs-inner">
+      <div class="section-label reveal">5-Axis Specifications</div>
+      <h2 class="section-h reveal">Materials &amp; Capabilities</h2>
+      <div class="specs-grid">
+        <div class="spec-block reveal">
+          <div class="spec-title">Materials We Cut</div>
+          <ul class="spec-list">
+            <li>Carbon Steel — .001&quot; to 5/8&quot; thick</li>
+            <li>Stainless Steel — .001&quot; to 3/4&quot; thick</li>
+            <li>Aluminum — .001&quot; to 3/8&quot; thick</li>
+            <li>Inquire about non-specified materials</li>
+          </ul>
+        </div>
+        <div class="spec-block reveal delay-1">
+          <div class="spec-title">Machine Capabilities</div>
+          <ul class="spec-list">
+            <li>Working table up to 72&quot; × 168&quot;</li>
+            <li>30&quot; Z-axis travel</li>
+            <li>359° C-axis rotation</li>
+            <li>Contour cutting and beveling</li>
+            <li>Laser trimming of formed pieces</li>
+            <li>5-Axis laser welding</li>
+          </ul>
+        </div>
+        <div class="spec-block reveal delay-2">
+          <div class="spec-title">Applications</div>
+          <ul class="spec-list">
+            <li>Structural tube and pipe cutting</li>
+            <li>3D hydroformed part trimming</li>
+            <li>Aerospace structural components</li>
+            <li>Agricultural equipment parts</li>
+            <li>Automotive frames and brackets</li>
+            <li>Prototype and production runs</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5-Axis Gallery -->
+  <section class="gallery">
+    <div class="gallery-header">
+      <div class="section-label reveal">Shop Photos</div>
+      <h2 class="section-h reveal">Five Axes.<br>Zero Limits.</h2>
+    </div>
+    <div class="gallery-strip">
+      <div class="gallery-cell">
+        <img src="../brand_assets/Photos/5-axis%20Laser/KGM010.jpg" alt="5-Axis laser machine floor view">
+      </div>
+      <div class="gallery-cell">
+        <img src="../brand_assets/Photos/5-axis%20Laser/KGM020.jpg" alt="5-Axis laser head close-up">
+      </div>
+      <div class="gallery-cell">
+        <img src="../brand_assets/Photos/5-axis%20Laser/Laser%20ON%20V.jpg" alt="Laser cutting in action">
+      </div>
+    </div>
+  </section>
+
+  <hr class="svc-divider">
+
+  <!-- ── TUBE CUTTING ── -->
+  <section class="overview" id="tube-cutting" style="padding-top:100px;">
+    <div class="overview-inner">
+      <div>
+        <div class="svc-type-tag reveal">Tube Cutting</div>
+        <div class="section-label reveal">Structural Tube &amp; Pipe</div>
+        <h2 class="section-h reveal">Precision Cuts<br>on Every Profile.</h2>
+        <p class="overview-body reveal">
+          Our tube cutting capabilities handle square tube, round pipe, rectangular tube, and custom profiles with precision that manual cutting can't match. Whether you need simple end cuts, complex mitered joints, fish-mouth notches, or hole patterns cut directly into tube walls, our laser cuts it clean — every time.
+        </p>
+        <div class="check-list">
+          <div class="check-item reveal delay-1">
+            <div class="check-box" aria-hidden="true"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#FF6B1A" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <span>Square, round, rectangular, and custom tube profiles</span>
+          </div>
+          <div class="check-item reveal delay-2">
+            <div class="check-box" aria-hidden="true"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#FF6B1A" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <span>End cuts, miters, fish-mouths, and in-wall hole patterns</span>
+          </div>
+          <div class="check-item reveal delay-3">
+            <div class="check-box" aria-hidden="true"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#FF6B1A" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <span>Carbon steel, stainless, and aluminum tube in production volumes</span>
+          </div>
+        </div>
+      </div>
+      <div class="overview-photo reveal delay-1">
+        <img src="../brand_assets/Photos/5-axis%20Laser/KGM015.jpg" alt="Tube cutting at L.E.F., INC.">
+      </div>
+    </div>
+  </section>
+
+  <!-- Tube Cutting Specs -->
+  <section class="specs">
+    <div class="specs-inner">
+      <div class="section-label reveal">Tube Cutting Specifications</div>
+      <h2 class="section-h reveal">Profiles &amp; Capabilities</h2>
+      <div class="specs-grid">
+        <div class="spec-block reveal">
+          <div class="spec-title">Tube Profiles</div>
+          <ul class="spec-list">
+            <li>Round pipe — various diameters</li>
+            <li>Square tube — various sizes</li>
+            <li>Rectangular tube — various sizes</li>
+            <li>Custom and structural profiles</li>
+          </ul>
+        </div>
+        <div class="spec-block reveal delay-1">
+          <div class="spec-title">Cut Types</div>
+          <ul class="spec-list">
+            <li>End cuts and angle cuts</li>
+            <li>Fish-mouth and coped joints</li>
+            <li>Hole patterns in tube walls</li>
+            <li>Slot and notch cutting</li>
+            <li>Complex 3D bevel cuts</li>
+          </ul>
+        </div>
+        <div class="spec-block reveal delay-2">
+          <div class="spec-title">Applications</div>
+          <ul class="spec-list">
+            <li>Structural frames and assemblies</li>
+            <li>Handrails and guardrails</li>
+            <li>Agricultural and oilfield equipment</li>
+            <li>Automotive and motorsport fabrication</li>
+            <li>Architectural steel work</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <h2 class="cta-h reveal">Ready to Cut?</h2>
+    <p class="cta-p reveal">Start a quote and get a detailed response within 48 hours. No commitment, no pressure.</p>
+    <div class="cta-btns reveal">
+      <a href="../index.html#quote" class="btn-white">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        Start a Quote
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    <a href="../index.html" aria-label="L.E.F., INC. home">
+      <img src="../brand_assets/Logo/1.png" alt="" aria-hidden="true" style="height:28px;width:28px;opacity:0.55;">
+    </a>
+    <div class="footer-copy">© 2025 L.E.F., INC. All rights reserved. &nbsp;·&nbsp; 9401 E. 54th St., Tulsa, OK 74145</div>
+    <nav class="footer-links" aria-label="Footer navigation">
+      <a href="../index.html#services">Services</a>
+      <a href="../about.html">About Us</a>
+      <a href="../index.html#quote">Start a Quote</a>
+    </nav>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); observer.unobserve(e.target); } });
+    }, { threshold: 0.08, rootMargin: '0px 0px -36px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
