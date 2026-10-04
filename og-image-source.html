@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 1200px; height: 630px; overflow: hidden; }
+    .wrap {
+      width: 1200px; height: 630px;
+      position: relative;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .bg {
+      position: absolute; inset: 0;
+      background-image: url('brand_assets/Photos/5-axis%20Laser/FIRE%20ON%20H.jpg');
+      background-size: cover;
+      background-position: center;
+      filter: brightness(0.38);
+    }
+    .text {
+      position: relative; z-index: 2;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 130px;
+      letter-spacing: 0.08em;
+      color: #fff;
+      text-align: center;
+      line-height: 1;
+      text-shadow: 0 4px 48px rgba(0,0,0,0.6);
+    }
+    .sub {
+      position: absolute; bottom: 40px; left: 0; right: 0;
+      text-align: center; z-index: 2;
+      font-family: 'DM Mono', monospace;
+      font-size: 18px; letter-spacing: 0.32em; text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="wrap">
+    <div class="bg"></div>
+    <div class="text">L.E.F., INC.</div>
+    <div class="sub">Laser Cutting &amp; Metal Fabrication &nbsp;·&nbsp; Tulsa, OK</div>
+  </div>
+</body>
+</html>
