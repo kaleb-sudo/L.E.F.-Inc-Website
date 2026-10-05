@@ -773,7 +773,8 @@
       .cta { padding: 70px 24px; }
       .form-grid { grid-template-columns: 1fr; }
 
-      .contact-row { padding: 36px 24px; gap: 28px; }
+      .contact-row { padding: 36px 24px; gap: 28px; flex-direction: column; align-items: flex-start; }
+      .c-divider { display: none; }
       footer { padding: 28px 24px; flex-direction: column; gap: 14px; align-items: flex-start; }
     }
 
@@ -1154,7 +1155,7 @@
       </div>
     </a>
 
-    <div style="width:1px;height:40px;background:var(--border);" aria-hidden="true"></div>
+    <div class="c-divider" style="width:1px;height:40px;background:var(--border);" aria-hidden="true"></div>
 
     <div class="c-item">
       <div class="c-icon" aria-hidden="true">
