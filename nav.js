@@ -171,7 +171,7 @@
       /* Logo and links across from each other, copyright on its own line below */
       'footer.site-footer{flex-wrap:wrap;justify-content:space-between;gap:20px 16px;padding:32px 16px 28px;}',
       '.site-footer-links{margin-left:auto;gap:24px;order:2;}',
-      '.site-footer-copy{order:3;flex-basis:100%;font-size:10px;}',
+      '.site-footer-copy{order:3;flex-basis:100%;font-size:10px;text-align:center;}',
     '}',
     '@media (max-width:360px){',
       '.site-footer-links{gap:16px;}',
