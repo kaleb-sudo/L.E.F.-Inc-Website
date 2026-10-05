@@ -551,7 +551,18 @@
       transform: scaleX(0); transform-origin: left;
       transition: transform 0.45s cubic-bezier(0.16,1,0.3,1);
     }
-    .svc-card:hover::after { transform: scaleX(1); }
+    .svc-card:hover::after,
+    .svc-card.is-active::after { transform: scaleX(1); }
+    /* Touch screens: lit while scrolled through mid-screen (beats .reveal.in) */
+    .svc-card.reveal.in.is-active {
+      border-color: rgba(255,107,26,0.4);
+      transform: translateY(-5px);
+      box-shadow:
+        0 24px 64px rgba(0,0,0,0.5),
+        0 0 0 1px rgba(255,107,26,0.15),
+        0 6px 24px rgba(255,107,26,0.08);
+      transition-delay: 0s;
+    }
 
     .svc-icon { width: 44px; height: 44px; color: var(--accent); margin-bottom: 24px; }
     .svc-t {
@@ -731,11 +742,15 @@
     @media (max-width: 960px) {
       .hero { grid-template-columns: 1fr; min-height: auto; }
       .hero-left { padding: 120px 24px 60px; }
-      .hero-right { height: 280px; }
-      /* Nudge sparks left to sit on the nozzle tip in the narrower crop */
-      .hero-spark-effect { left: 67%; top: 64%; }
-      .spark-mini-a { left: 63%; top: 60%; }
-      .spark-mini-b { left: 72%; top: 62%; }
+      /* Mobile: shop photo becomes the full hero background behind the text */
+      .hero-right { position: absolute; inset: 0; z-index: 0; }
+      .hero-right img { object-position: 62% center !important; }
+      .hero-right::after {
+        content: ''; position: absolute; inset: 0; z-index: 2;
+        background: linear-gradient(to bottom, rgba(12,12,11,0.82) 0%, rgba(12,12,11,0.6) 45%, rgba(12,12,11,0.78) 100%);
+      }
+      .hero-right-fade-l { display: none; }
+      .hero-spark-effect, .spark-mini { display: none; }
 
       .hard-jobs-header { padding: 60px 24px 40px; flex-direction: column; align-items: flex-start; }
       .hard-jobs-strip { grid-template-columns: 1fr; }
@@ -1156,13 +1171,13 @@
   </footer>
 
   <script>
-    // Touch screens have no hover: light up each "hardest jobs" photo
-    // (and show its button) while it's scrolled through the middle of the screen
+    // Touch screens have no hover: light up each "hardest jobs" photo (and show
+    // its button) and each capability card while it's scrolled through mid-screen
     if (window.matchMedia('(hover: none)').matches && 'IntersectionObserver' in window) {
       const hjObserver = new IntersectionObserver(entries => {
         entries.forEach(e => e.target.classList.toggle('is-active', e.isIntersecting));
       }, { rootMargin: '-48% 0px -48% 0px' });
-      document.querySelectorAll('.hard-jobs-cell').forEach(c => hjObserver.observe(c));
+      document.querySelectorAll('.hard-jobs-cell, .svc-card').forEach(c => hjObserver.observe(c));
     }
 
     // Scroll reveal via IntersectionObserver
