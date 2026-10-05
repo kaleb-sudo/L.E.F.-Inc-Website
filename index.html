@@ -1181,13 +1181,27 @@
   </footer>
 
   <script>
-    // Touch screens have no hover: light up each "hardest jobs" photo (and show
-    // its button) and each capability card while it's scrolled through mid-screen
-    if (window.matchMedia('(hover: none)').matches && 'IntersectionObserver' in window) {
-      const hjObserver = new IntersectionObserver(entries => {
-        entries.forEach(e => e.target.classList.toggle('is-active', e.isIntersecting));
-      }, { rootMargin: '-48% 0px -48% 0px' });
-      document.querySelectorAll('.hard-jobs-cell, .svc-card').forEach(c => hjObserver.observe(c));
+    // Touch screens have no hover: light up a "hardest jobs" photo (and show its
+    // button) or a capability card when a finger touches it, like the gallery.
+    // It stays lit until the finger touches somewhere else.
+    if (window.matchMedia('(hover: none)').matches) {
+      const touchables = document.querySelectorAll('.hard-jobs-cell, .svc-card');
+      let justRevealed = null;
+      document.addEventListener('touchstart', e => {
+        const hit = e.target.closest('.hard-jobs-cell, .svc-card');
+        touchables.forEach(el => { if (el !== hit) el.classList.remove('is-active'); });
+        if (hit) {
+          justRevealed = hit.classList.contains('is-active') ? null : hit;
+          hit.classList.add('is-active');
+        }
+      }, { passive: true });
+      // First tap on a "hardest jobs" photo only reveals its button; the next tap uses it
+      document.querySelectorAll('.hard-jobs-cell').forEach(cell => {
+        cell.addEventListener('click', e => {
+          if (justRevealed === cell) e.preventDefault();
+          justRevealed = null;
+        });
+      });
     }
 
     // Scroll reveal via IntersectionObserver

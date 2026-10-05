@@ -168,9 +168,14 @@
     '.site-footer-links a:focus-visible{outline:2px solid #FF6B1A;outline-offset:4px;color:#F0EDE8;}',
     '.site-footer-links a:active{color:#FF6B1A;}',
     '@media (max-width:640px){',
-      'footer.site-footer{flex-direction:column;align-items:center;text-align:center;gap:18px;padding:36px 16px 28px;}',
-      '.site-footer-links{margin-left:0;gap:28px;order:2;}',
-      '.site-footer-copy{order:3;font-size:10px;}',
+      /* Logo and links across from each other, copyright on its own line below */
+      'footer.site-footer{flex-wrap:wrap;justify-content:space-between;gap:20px 16px;padding:32px 16px 28px;}',
+      '.site-footer-links{margin-left:auto;gap:24px;order:2;}',
+      '.site-footer-copy{order:3;flex-basis:100%;font-size:10px;}',
+    '}',
+    '@media (max-width:360px){',
+      '.site-footer-links{gap:16px;}',
+      '.site-footer-links a{letter-spacing:0.1em;}',
     '}'
   ].join('');
   document.head.appendChild(style);
