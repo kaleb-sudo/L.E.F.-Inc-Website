@@ -180,8 +180,9 @@
   ].join('');
   document.head.appendChild(style);
 
-  /* Determine quote link — home page anchors to #quote, subpages go to index */
-  var quoteLink = isSubpage ? root + 'index.html#quote' : '#quote';
+  /* Determine quote link — home page anchors to #quote, every other page goes to index */
+  var isHome = /(^|\/)(index\.html)?$/.test(window.location.pathname);
+  var quoteLink = isHome ? '#quote' : root + 'index.html#quote';
 
   /* ── Build nav HTML ── */
   var navEl = document.createElement('nav');
